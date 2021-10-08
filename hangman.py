@@ -1,14 +1,18 @@
 import random
 import urllib.request
 
+#Variables
+gallowsSegments = 6
+wordSite = 'https://www.mit.edu/~ecprice/wordlist.10000'
+
 def debug(*argv):
     for arg in argv: print(arg)
     return
 
-def guessing(life, word):
+def guessing(gallowsSegments, word):
     wordObf = ['_' for i in list(word[:])]
     success = False
-    while life>0 and not(success):
+    while gallowsSegments>0 and not(success):
 
         guess = input("Guess the letter: ")
         print('\n')
@@ -21,8 +25,8 @@ def guessing(life, word):
             print("Good guess!")
             print("".join([i+" " for i in wordObf]))
         else:  
-            life-=1
-            print(f"Nope. Lifes left: {life}")
+            gallowsSegments-=1
+            print(f"Nope. gallowsSegmentss left: {gallowsSegments}")
             print("".join([i+" " for i in wordObf]))
         if wordObf == list(i for i in word): 
             print(f'\nYou did it! The word is "{word}"')
@@ -31,19 +35,13 @@ def guessing(life, word):
     return
 
 def main():
-    life = 6
-    wordSite = 'https://www.mit.edu/~ecprice/wordlist.10000'
     response = urllib.request.urlopen(wordSite)
     long_txt = response.read().decode()
     words = long_txt.splitlines()
     word = words[random.randrange(0,len(words))]
     debug(response, word)
-
-
-    guessing(life, word)
+    guessing(gallowsSegments, word)
     return
-
-
 
 if __name__ == "__main__":
     main()
