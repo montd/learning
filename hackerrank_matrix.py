@@ -31,10 +31,7 @@ def load():
 
 def matrix(columnAndRow, dataFirstProcess):
     print(columnAndRow)
-    _dataFirstProcessInvertedEmpty = [[None for x in range(int(columnAndRow[0]))] for y in range(int(columnAndRow[1]))]
     print(dataFirstProcess)
-    print(type(dataFirstProcess[0][0]))
-    print(_dataFirstProcessInvertedEmpty)
     decoded =''
     for n in range(columnAndRow[1]):
         for m in range(columnAndRow[0]):
@@ -43,19 +40,20 @@ def matrix(columnAndRow, dataFirstProcess):
     #     for m in range(columnAndRow[0]):
     #         decoded += _dataFirstProcessInvertedEmpty[n][m]
     
+    decodedCleaned = re.sub('\W', ' ', decoded)
+    decodedCleaned = decodedCleaned.rstrip()
+    decodedCleaned = re.sub(' +', ' ', decodedCleaned)
+    decodedCleaned+=(re.sub('.*[\w]', '', decoded))
+
 
     # for n in range(columnAndRow[0]):
     #     for m in range(columnAndRow[1]):
     #         decoded += dataFirstProcess[m][n]
     print(decoded)
+    print(decodedCleaned)
 
 
     # for i in dataFirstProcess:
-
-
-
-
-if __name__ == '__main__':
-    nm, code = load()
-    # nm, code = get(data)
-    matrix(nm,code)
+nm, code = load()
+# nm, code = get(data)
+matrix(nm,code)
