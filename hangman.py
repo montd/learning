@@ -90,7 +90,6 @@ def main():
     if (word is False):
         return None
     guessing(gallowsSegments, word)
-    guessing()
     return
 
 
