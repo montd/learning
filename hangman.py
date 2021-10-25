@@ -5,38 +5,43 @@ import urllib.request
 gallowsSegments: int = 6
 wordSite = 'https://www.mit.edu/~ecprice/wordlist.10000'
 
+
 def debug(*argv):
 
     for arg in argv:
         print(arg)
     return
 
+
 class Message:
     def __init__(self) -> None:
         pass
 
+    @staticmethod
     def success(wordObf) -> None:
         print("Good guess!\n" + ''.join([i+" " for i in wordObf]))
 
+    @staticmethod
     def mistake(gs, wordObf) -> None:
         print(f"Nope. Gallows Segments left: {gs}")
         print("".join([i+" " for i in wordObf]))
 
+    @staticmethod
     def win(word) -> None:
         print(f'\nYou did it! The word is "{word}"')
-    
+
+    @staticmethod
     def lose(word) -> None:
         print(f"\nThe word was: {word}")
-    
+
+    @staticmethod
     def printHiddenWord(wordObf):
         print("".join(["_"+" " for i in wordObf]))
+
 
 def getWord(wordSite) -> bool:
     try:
         response = urllib.request.urlopen(wordSite)
-    except urllib.error.HTTPerror as e:
-        print("Sorry, a HTTP error occured. The game will exit now.")
-        return False
     except urllib.error.URLError as e:
         print("Sorry, a URL error occured. The game will exit now.")
         return False
@@ -45,11 +50,15 @@ def getWord(wordSite) -> bool:
         words = long_txt.splitlines()
         return words[random.randrange(0, len(words))]
 
-def guessing(gallowsSegments, word):
-    success = False # Init
+
+def guessing(gallowsSegments, word) -> int:
+    """
+    :param int gallowsSegments: Number of letters in word
+    """
+    success = False  # Init
     wordObf = ['_' for i in list(word[:])]
     Message.printHiddenWord(word)
-  
+
     while gallowsSegments > 0 and not (success):
         guess = input("Guess the letter: ")
         print('\n')
@@ -64,7 +73,7 @@ def guessing(gallowsSegments, word):
 
         else:
             gallowsSegments -= 1
-            Message.mistake(gallowsSegments,wordObf)
+            Message.mistake(gallowsSegments, wordObf)
 
         if wordObf == list(i for i in word):
             Message.win(word)
@@ -72,15 +81,16 @@ def guessing(gallowsSegments, word):
 
     if not (success):
         Message.lose(word)
-    return
+        return 0
+    return 1
 
 
 def main():
     word = getWord(wordSite)
-    if (word == False): 
+    if (word is False):
         return None
-    
     guessing(gallowsSegments, word)
+    guessing()
     return
 
 
